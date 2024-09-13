@@ -34,6 +34,7 @@
 #include "G4RunManagerFactory.hh"
 #include "G4UImanager.hh"
 #include "FTFP_BERT.hh"
+#include "G4EmLivermorePolarizedPhysics.hh"
 
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
@@ -60,7 +61,9 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(new ED::DetectorConstruction());
 
   // Physics list
-  auto physicsList = new FTFP_BERT;
+  //auto physicsList = new FTFP_BERT;
+  G4VModularPhysicsList* physicsList = new G4VModularPhysicsList();
+  physicsList->RegisterPhysics(new G4EmLivermorePolarizedPhysics());
   physicsList->SetVerboseLevel(1);
   runManager->SetUserInitialization(physicsList);
 

@@ -34,6 +34,9 @@
 /vis/viewer/set/viewpointVector -1 0 0
 /vis/viewer/set/lightsVector -1 0 0
 #
+# Draw axis
+#/vis/scene/add/axes 0 0 0 1 m
+#
 # Specify style (surface, wireframe, auxiliary edges,...)
 /vis/viewer/set/style wireframe
 /vis/viewer/set/auxiliaryEdge true
@@ -70,12 +73,9 @@
 /vis/scene/endOfEventAction accumulate
 #
 # To get nice view
-/vis/geometry/set/visibility World 0 false
-/vis/geometry/set/colour Tube 0 blue
-/vis/geometry/set/colour Chamber1 0 green
-/vis/geometry/set/colour Chamber2 0 green
-/vis/geometry/set/colour EmCalorimeter 0 yellow
-/vis/geometry/set/colour EmLayer 0 yellow
+/vis/geometry/set/visibility World 0 true
+/vis/geometry/set/colour detectorA 0 yellow
+/vis/geometry/set/colour detectorB 0 red
 #
 # Re-establish auto refreshing and verbosity:
 /vis/viewer/set/autoRefresh true

@@ -25,17 +25,11 @@
 /vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2
 /vis/scene/notifyHandlers scene-0
 /vis/scene/endOfEventAction accumulate
-/vis/geometry/set/visibility World 0 false
+/vis/geometry/set/visibility World 0 true
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour Tube 0 blue
+/vis/geometry/set/colour detectorA 0 yellow
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour Chamber1 0 green
-/vis/scene/notifyHandlers
-/vis/geometry/set/colour Chamber2 0 green
-/vis/scene/notifyHandlers
-/vis/geometry/set/colour EmCalorimeter 0 yellow
-/vis/scene/notifyHandlers
-/vis/geometry/set/colour EmLayer 0 yellow
+/vis/geometry/set/colour detectorB 0 red
 /vis/scene/notifyHandlers
 /vis/viewer/set/autoRefresh true
 /vis/viewer/refresh
@@ -45,5 +39,5 @@
 /run/beamOn 1
 /run/beamOn 1
 /run/beamOn 1
-/run/beamOn 1
-/run/beamOn 1
+/run/beamOn 500
+/run/beamOn 50

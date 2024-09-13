@@ -58,14 +58,31 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Get nist material manager
   auto nistManager = G4NistManager::Instance();
 
-  // Build materials
-  auto air = nistManager->FindOrBuildMaterial("G4_AIR");
-  auto argon = nistManager->FindOrBuildMaterial("G4_Ar");
-  auto csi = nistManager->FindOrBuildMaterial("G4_CESIUM_IODIDE");
-  auto copper = nistManager->FindOrBuildMaterial("G4_Cu");
-       // There is no need to test if materials were built/found
-       // as G4NistManager would issue an error otherwise
-       // Try the code with "XYZ".
+  G4double a;     // Atomic mass
+  G4double z;     // Atomic number
+  G4double density; // Density
+  G4int nel;      // Number of elements in a compound
+  G4int natoms;       // Number of atoms in a compound
+  G4double fractionmass;
+  G4int ncomponents;
+
+  // Vacuum
+  G4Element*  H  = new G4Element("Hydrogen"  , "H" , z = 1. , a =  1.008*g/mole);
+  G4Material* vacuum = new G4Material("Vacuum", density = 1.e-25*g/cm3, nel = 1);
+  vacuum -> AddElement(H, 100*perCent);
+
+  //  Silicon
+  auto silicon = nistManager->FindOrBuildMaterial("G4_Si");
+
+  // CZT 
+  G4Element* elCd = nistManager->FindOrBuildElement("Cd");
+  G4Element* elZn = nistManager->FindOrBuildElement("Zn");
+  G4Element* elTe = nistManager->FindOrBuildElement("Te");
+  // Typical density of CZT
+  G4Material* CZT = new G4Material("CZT", density = 5.78 * g/cm3, 3);
+  CZT->AddElement(elCd, 9);  // 9 Cd atoms
+  CZT->AddElement(elZn, 1);  // 1 Zn atom
+  CZT->AddElement(elTe, 10); // 10 Te atoms (equivalent to 1 Te atom per Cd+Zn unit)
 
   // Print all materials
   G4cout << *(G4Material::GetMaterialTable()) << G4endl;
@@ -76,14 +93,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // World
   //
-  G4double hx = 10*m;
-  G4double hy = 3.*m;
-  G4double hz = 10*m;
+  G4double hx = 2.*m;
+  G4double hy = 2.*m;
+  G4double hz = 4.*m;
 
   // world volume
   auto worldS = new G4Box("World", hx, hy, hz);
 
-  auto worldLV = new G4LogicalVolume(worldS, air, "World");
+  auto worldLV = new G4LogicalVolume(worldS, vacuum, "World");
 
   auto worldPV = new G4PVPlacement(0,                     //no rotation
                       G4ThreeVector(),       //at (0,0,0)
@@ -94,168 +111,37 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                       0,                     //copy number
                       checkOverlaps);        //overlaps checking
 
-  //
-  // Tube
-  //
-  G4double rmin = 0.;
-  G4double rmax = 1.*m;
-  hz = 1.*m;
-  G4double phimin = 0.;
-  G4double dphi = 360.*deg;
-
-  // tube volume
-  auto tubeS = new G4Tubs("Tube", rmin, rmax, hz, phimin, dphi);
-
-  auto tubeLV = new G4LogicalVolume(tubeS, air, "Tube");
+  // detector A
+  G4double detAx = 0.5*m; // half size
+  G4double detAy = 0.5*m;
+  G4double detAz = 0.5*cm;
+  auto detectorAS = new G4Box("detectorAS", detAx, detAy, detAz);
+  auto detectorALV = new G4LogicalVolume(detectorAS, silicon, "detectorA");
 
   new G4PVPlacement(0,
-                    G4ThreeVector(),       //at (0,0,0)
-                    tubeLV,                //its logical volume
-                    "Tube",                //its name
+                    G4ThreeVector(0, 0, -20.*cm),
+                    detectorALV,          //its logical volume
+                    "detectorA",            //its name
                     worldLV,               //its mother  volume
                     false,                 //no boolean operation
                     0,                     //copy number
                     checkOverlaps);        //overlaps checking
 
-  // First arm
-  hx = 1.5*m;
-  hy = 1.*m;
-  hz = 3.*m;
-  auto firstArmS = new G4Box("FirstArmS", hx, hy, hz);
-  auto firstArmLV = new G4LogicalVolume(firstArmS, air, "FirstArm");
+  // detector B
+  G4double detBx = 0.5*m; // half size
+  G4double detBy = 0.5*m;
+  G4double detBz = 1.*cm;
+  auto detectorBS = new G4Box("detectorBS", detBx, detBy, detBz);
+  auto detectorBLV = new G4LogicalVolume(detectorBS, CZT, "detectorB");
 
-  G4double zpos = -5.*m;
   new G4PVPlacement(0,
-                    G4ThreeVector(0, 0, zpos),
-                    firstArmLV,            //its logical volume
-                    "FirstArm",            //its name
+                    G4ThreeVector(0, 0, 20.*cm),
+                    detectorBLV,          //its logical volume
+                    "detectorB",            //its name
                     worldLV,               //its mother  volume
                     false,                 //no boolean operation
                     0,                     //copy number
                     checkOverlaps);        //overlaps checking
-
-  // Drift chambers in First arm
-  hx = 1.*m;
-  hy = 30.*cm;
-  hz = 1.*cm;
-  auto chamber1S = new G4Box("Chamber1S", hx, hy, hz);
-  auto chamber1LV = new G4LogicalVolume(chamber1S, argon, "Chamber1");
-
-  G4double dz = 0.5*m;
-  for (G4int i=0; i<5; ++i) {
-    G4double zposi = (i-2)*dz;
-    new G4PVPlacement(0,
-                    G4ThreeVector(0, 0, zposi),
-                    chamber1LV,            //its logical volume
-                    "Chamber1",            //its name
-                    firstArmLV,            //its mother  volume
-                    false,                 //no boolean operation
-                    i,                     //copy number
-                    checkOverlaps);        //overlaps checking
-  }
-
-  // Wire plane in drift chambers in First arm
-  hx = 1.*m;
-  hy = 30.*cm;
-  hz = 0.1*mm;
-  auto wirePlane1S = new G4Box("WirePlane1S", hx, hy, hz);
-  auto wirePlane1LV = new G4LogicalVolume(wirePlane1S, copper, "WirePlane1");
-  new G4PVPlacement(0,
-                    G4ThreeVector(),       //at (0,0,0)
-                    wirePlane1LV,          //its logical volume
-                    "WirePlane1",          //its name
-                    chamber1LV,            //its mother  volume
-                    false,                 //no boolean operation
-                    0,                     //copy number
-                    checkOverlaps);        //overlaps checking
-
-  // Second arm
-  hx = 1.5*m;
-  hy = 1.*m;
-  hz = 3.*m;
-  auto secondArmS = new G4Box("SecondArmS", hx, hy, hz);
-  auto secondArmLV = new G4LogicalVolume(secondArmS, air, "SecondArm");
-
-  // Position
-  zpos = 5.*m;
-  new G4PVPlacement(0,
-                    G4ThreeVector(0, 0, zpos),
-                    secondArmLV,           //its logical volume
-                    "SecondArm",           //its name
-                    worldLV,               //its mother  volume
-                    false,                 //no boolean operation
-                    0,                     //copy number
-                    checkOverlaps);        //overlaps checking
-
-  // Drift chambers in Second arm
-  hx = 1.5*m;
-  hy = 30.*cm;
-  hz = 1.*cm;
-  dz = 0.5*m;
-  auto chamber2S = new G4Box("Chamber2S", hx, hy, hz);
-  auto chamber2LV = new G4LogicalVolume(chamber2S, argon, "Chamber2");
-  for (G4int i=0; i<5; ++i) {
-    G4double zposi = (i-2)*dz;
-    new G4PVPlacement(0,
-                    G4ThreeVector(0, 0, zposi),
-                    chamber2LV,            //its logical volume
-                    "Chamber2",            //its name
-                    secondArmLV,            //its mother  volume
-                    false,                 //no boolean operation
-                    i,                     //copy number
-                    checkOverlaps);        //overlaps checking
-  }
-
-  // Wire plane in drift chambers in Second arm
-  hx = 1.5*m;
-  hy = 30.*cm;
-  hz = 0.1*mm;
-  auto wirePlane2S = new G4Box("WirePlane2S", hx, hy, hz);
-  auto wirePlane2LV = new G4LogicalVolume(wirePlane2S, copper, "WirePlane2");
-  new G4PVPlacement(0,
-                    G4ThreeVector(),       //at (0,0,0)
-                    wirePlane2LV,          //its logical volume
-                    "WirePlane2",          //its name
-                    chamber2LV,            //its mother  volume
-                    false,                 //no boolean operation
-                    0,                     //copy number
-                    checkOverlaps);        //overlaps checking
-
-
-  // EM calorimeter
-  hx = 1.5*m;
-  hy = 30.*cm;
-  hz = 15.*cm;
-  auto emCalorimeterS = new G4Box("EmCalorimeterS", hx, hy, hz);
-  auto emCalorimeterLV = new G4LogicalVolume(emCalorimeterS, csi, "EmCalorimeter");
-
-  zpos = 2.*m;
-  new G4PVPlacement(0,
-                    G4ThreeVector(0, 0, zpos),
-                    emCalorimeterLV,       //its logical volume
-                    "EmCalorimeter",       //its name
-                    secondArmLV,           //its mother  volume
-                    false,                 //no boolean operation
-                    0,                     //copy number
-                    checkOverlaps);        //overlaps checking
-
-  hx = 15.*cm;
-  hy = 30.*cm;
-  hz = 15.*cm;
-  auto emLayerS = new G4Box("EmLayerS", hx, hy, hz);
-  auto emLayerLV = new G4LogicalVolume(emLayerS, csi, "EmLayer");
-
-  for (G4int i=0; i<10; ++i) {
-    G4double xpos = -1.5*m + (2*i+1)*hz;
-    new G4PVPlacement(0,
-                    G4ThreeVector(xpos, 0, 0),
-                    emLayerLV,             //its logical volume
-                    "EmLayer",             //its name
-                    emCalorimeterLV,       //its mother  volume
-                    false,                 //no boolean operation
-                    i,                     //copy number
-                    checkOverlaps);        //overlaps checking
-  }
 
   //always return the physical World
   //

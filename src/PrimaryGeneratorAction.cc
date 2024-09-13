@@ -59,10 +59,10 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   //
 
   // Define particle properties
-  G4String particleName = "proton";
+  G4String particleName = "gamma";
   //G4String particleName = "geantino";
-  G4ThreeVector position(0, 0, -9.*m);
-  G4ThreeVector momentum(0, 0, 1.*GeV);
+  G4ThreeVector position(0, 0, -3.*m);
+  G4ThreeVector momentum(0, 0, 200.*keV);
   G4double time = 0;
 
   // Get particle definition from G4ParticleTable
