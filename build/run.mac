@@ -5,4 +5,17 @@
 #
 /run/initialize
 #
-/run/beamOn 10
+# Define the beam (photons)
+# Particle
+/gps/particle gamma
+/gps/energy 200 keV
+/gps/direction 0.0  0.0 1.0
+/gps/polarization 1. 0. 0.
+# Beam
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0.0 0.0 -300.0 cm
+/gps/pos/halfx 5.0 mm
+/gps/pos/halfy 5.0 mm
+# Run
+/run/beamOn 20

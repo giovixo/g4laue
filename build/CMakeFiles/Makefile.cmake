@@ -50,6 +50,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.23.2/CMakeCCompiler.cmake"
   "CMakeFiles/3.23.2/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.23.2/CMakeSystem.cmake"
+  "../detector.mac"
   "../init_vis.mac"
   "../run.mac"
   "../run.png"
@@ -120,6 +121,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "run.mac"
   "run.png"
   "vis.mac"
+  "detector.mac"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 

@@ -1,8 +1,9 @@
-/run/verbose 2
+/run/verbose 1
 /run/initialize
 /control/execute vis.mac
 /vis/open OGL 600x600-0+0
 /vis/sceneHandler/create OGL
+/vis/sceneHandler/attach
 /vis/viewer/create ! ! 600x600-0+0
 /vis/viewer/refresh
 /vis/viewer/set/autoRefresh false
@@ -13,6 +14,8 @@
 /vis/sceneHandler/attach
 /vis/viewer/set/viewpointVector -1 0 0
 /vis/viewer/set/lightsVector -1 0 0
+/vis/scene/add/axes 0 0 0 1 m
+/vis/scene/notifyHandlers
 /vis/viewer/set/style wireframe
 /vis/viewer/set/auxiliaryEdge true
 /vis/viewer/set/lineSegmentsPerCircle 100
@@ -22,8 +25,10 @@
 /vis/modeling/trajectories/create/drawByCharge
 /vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
 /vis/scene/notifyHandlers scene-0
+/vis/scene/notifyHandlers scene-1
 /vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2
 /vis/scene/notifyHandlers scene-0
+/vis/scene/notifyHandlers scene-1
 /vis/scene/endOfEventAction accumulate
 /vis/geometry/set/visibility World 0 true
 /vis/scene/notifyHandlers
@@ -31,13 +36,17 @@
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour detectorB 0 red
 /vis/scene/notifyHandlers
+/vis/geometry/set/colour detectorC 0 blue
+/vis/scene/notifyHandlers
 /vis/viewer/set/autoRefresh true
 /vis/viewer/refresh
 /vis/verbose warnings
-/run/beamOn 1
-/vis/scene/notifyHandlers scene-0
-/run/beamOn 1
-/run/beamOn 1
-/run/beamOn 1
-/run/beamOn 500
-/run/beamOn 50
+/vis/set/touchable World 0
+/vis/viewer/select viewer-0 (OpenGLStoredQt)
+/vis/viewer/refresh
+/vis/set/touchable World 0
+/vis/viewer/select viewer-1 (OpenGLStoredQt)
+/vis/viewer/refresh
+/control/execute detector.mac
+/detector/detAsizeZ 1.
+/vis/viewer/refresh

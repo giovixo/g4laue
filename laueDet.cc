@@ -55,10 +55,15 @@ int main(int argc,char** argv)
   auto runManager =
     G4RunManagerFactory::CreateRunManager(G4RunManagerType::Serial);
 
+// Get the pointer to the User Interface manager
+  auto UImanager = G4UImanager::GetUIpointer();
+  
   // Set mandatory initialization classes
   //
   // Detector construction
+
   runManager->SetUserInitialization(new ED::DetectorConstruction());
+  UImanager->ApplyCommand("/control/execute detector.mac");
 
   // Physics list
   //auto physicsList = new FTFP_BERT;
@@ -76,9 +81,6 @@ int main(int argc,char** argv)
   // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
   // auto visManager = new G4VisExecutive("Quiet");
   visManager->Initialize();
-
-  // Get the pointer to the User Interface manager
-  auto UImanager = G4UImanager::GetUIpointer();
 
   if ( ! ui ) {
     // batch mode

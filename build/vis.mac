@@ -35,7 +35,7 @@
 /vis/viewer/set/lightsVector -1 0 0
 #
 # Draw axis
-#/vis/scene/add/axes 0 0 0 1 m
+/vis/scene/add/axes 0 0 0 1 m
 #
 # Specify style (surface, wireframe, auxiliary edges,...)
 /vis/viewer/set/style wireframe
@@ -76,6 +76,7 @@
 /vis/geometry/set/visibility World 0 true
 /vis/geometry/set/colour detectorA 0 yellow
 /vis/geometry/set/colour detectorB 0 red
+/vis/geometry/set/colour detectorC 0 blue
 #
 # Re-establish auto refreshing and verbosity:
 /vis/viewer/set/autoRefresh true

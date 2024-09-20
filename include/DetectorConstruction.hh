@@ -34,6 +34,7 @@
 #include "G4VUserDetectorConstruction.hh"
 
 class G4VPhysicalVolume;
+class G4GenericMessenger;
 
 /// Detector construction class to define materials and geometry.
 
@@ -48,6 +49,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
   public:
     G4VPhysicalVolume* Construct() override;
+
+  private:
+    G4GenericMessenger *fMessenger = nullptr;
+    G4double detAsizeZ = 1.;
 };
 
 }

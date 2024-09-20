@@ -37,6 +37,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4GenericMessenger.hh"
 
 namespace ED
 {
@@ -44,7 +45,10 @@ namespace ED
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::DetectorConstruction()
-{ }
+{ 
+  fMessenger = new G4GenericMessenger(this, "/detector/", "Detector contruction");
+  fMessenger->DeclareProperty("detAsizeZ", detAsizeZ, "Thickness of the detector A");
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -55,6 +59,7 @@ DetectorConstruction::~DetectorConstruction()
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
+  // --- MATERIALS DEFINITION ---
   // Get nist material manager
   auto nistManager = G4NistManager::Instance();
 
@@ -85,8 +90,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   CZT->AddElement(elTe, 10); // 10 Te atoms (equivalent to 1 Te atom per Cd+Zn unit)
 
   // Print all materials
-  G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+  // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
+  // --- VOLUMES DEFINITIONS ---
   // Option to switch on/off checking of volumes overlaps
   G4bool checkOverlaps = true;
 
@@ -114,7 +120,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // detector A
   G4double detAx = 0.5*m; // half size
   G4double detAy = 0.5*m;
-  G4double detAz = 0.5*cm;
+  G4double detAz = detAsizeZ/2.*cm; //0.5*cm;
   auto detectorAS = new G4Box("detectorAS", detAx, detAy, detAz);
   auto detectorALV = new G4LogicalVolume(detectorAS, silicon, "detectorA");
 
@@ -135,13 +141,32 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   auto detectorBLV = new G4LogicalVolume(detectorBS, CZT, "detectorB");
 
   new G4PVPlacement(0,
-                    G4ThreeVector(0, 0, 20.*cm),
+                    G4ThreeVector(0, 0, +20.*cm),
                     detectorBLV,          //its logical volume
                     "detectorB",            //its name
                     worldLV,               //its mother  volume
                     false,                 //no boolean operation
                     0,                     //copy number
                     checkOverlaps);        //overlaps checking
+
+  // Detector C
+  G4double rmin = 95.*cm;
+  G4double rmax = 100.*cm;
+  hz = 30.*cm;
+  G4double phimin = 0.;
+  G4double dphi = 360.*deg;
+  auto detectorCS = new G4Tubs("detectorC", rmin, rmax, hz, phimin, dphi);
+  auto detectorCLV = new G4LogicalVolume(detectorCS, CZT, "detectorC");
+
+  new G4PVPlacement(0,
+                    G4ThreeVector(),       //at (0,0,0)
+                    detectorCLV,                //its logical volume
+                    "detectorC",                //its name
+                    worldLV,               //its mother  volume
+                    false,                 //no boolean operation
+                    0,                     //copy number
+                    checkOverlaps);        //overlaps checking
+
 
   //always return the physical World
   //
