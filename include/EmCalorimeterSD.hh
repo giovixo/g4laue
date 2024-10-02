@@ -25,40 +25,38 @@
 //
 // $Id$
 //
-/// \file DetectorConstruction.hh
-/// \brief Definition of the DetectorConstruction class
+/// \file EmCalorimeterSD.hh
+/// \brief Definition of the EmCalorimeterSD class
+//
 
-#ifndef DetectorConstruction_h
-#define DetectorConstruction_h 1
+#ifndef EmCalorimeterSD_h
+#define EmCalorimeterSD_h 1
 
-#include "G4VUserDetectorConstruction.hh"
+#include "G4VSensitiveDetector.hh"
+#include "EmCalorimeterHit.hh"
 
-class G4VPhysicalVolume;
-class G4GenericMessenger;
-
-/// Detector construction class to define materials and geometry.
+class G4Step;
+class G4HCofThisEvent;
+class G4TouchableHistory;
 
 namespace ED
 {
 
-class DetectorConstruction : public G4VUserDetectorConstruction
+class EmCalorimeterSD : public G4VSensitiveDetector
 {
   public:
-    DetectorConstruction();
-    ~DetectorConstruction() override;
+    EmCalorimeterSD(const G4String& name);
+    ~EmCalorimeterSD() override;
 
-  public:
-    G4VPhysicalVolume* Construct() override;
-    void ConstructSDandField() override;
+    void   Initialize(G4HCofThisEvent* hce) override;
+    G4bool ProcessHits(G4Step* step, G4TouchableHistory* history) override;
+    void   EndOfEvent(G4HCofThisEvent* hce) override;
 
   private:
-    G4GenericMessenger *fMessenger = nullptr;
-    G4double detAsizeZ = 1.;
+    EmCalorimeterHitsCollection* fHitsCollection = nullptr;
 };
 
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
 

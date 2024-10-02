@@ -111,10 +111,38 @@ CMakeFiles/laueDet.dir/src/DetectorConstruction.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/laueDet.dir/src/DetectorConstruction.cc.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/giovanni/dev/LaueLens/Simulations/g4laue/src/DetectorConstruction.cc -o CMakeFiles/laueDet.dir/src/DetectorConstruction.cc.s
 
+CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.o: CMakeFiles/laueDet.dir/flags.make
+CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.o: ../src/EmCalorimeterHit.cc
+CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.o: CMakeFiles/laueDet.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/giovanni/dev/LaueLens/Simulations/g4laue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.o -MF CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.o.d -o CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.o -c /Users/giovanni/dev/LaueLens/Simulations/g4laue/src/EmCalorimeterHit.cc
+
+CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/giovanni/dev/LaueLens/Simulations/g4laue/src/EmCalorimeterHit.cc > CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.i
+
+CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/giovanni/dev/LaueLens/Simulations/g4laue/src/EmCalorimeterHit.cc -o CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.s
+
+CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.o: CMakeFiles/laueDet.dir/flags.make
+CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.o: ../src/EmCalorimeterSD.cc
+CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.o: CMakeFiles/laueDet.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/giovanni/dev/LaueLens/Simulations/g4laue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.o -MF CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.o.d -o CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.o -c /Users/giovanni/dev/LaueLens/Simulations/g4laue/src/EmCalorimeterSD.cc
+
+CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/giovanni/dev/LaueLens/Simulations/g4laue/src/EmCalorimeterSD.cc > CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.i
+
+CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/giovanni/dev/LaueLens/Simulations/g4laue/src/EmCalorimeterSD.cc -o CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.s
+
 CMakeFiles/laueDet.dir/src/EventAction.cc.o: CMakeFiles/laueDet.dir/flags.make
 CMakeFiles/laueDet.dir/src/EventAction.cc.o: ../src/EventAction.cc
 CMakeFiles/laueDet.dir/src/EventAction.cc.o: CMakeFiles/laueDet.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/giovanni/dev/LaueLens/Simulations/g4laue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/laueDet.dir/src/EventAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/giovanni/dev/LaueLens/Simulations/g4laue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/laueDet.dir/src/EventAction.cc.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/laueDet.dir/src/EventAction.cc.o -MF CMakeFiles/laueDet.dir/src/EventAction.cc.o.d -o CMakeFiles/laueDet.dir/src/EventAction.cc.o -c /Users/giovanni/dev/LaueLens/Simulations/g4laue/src/EventAction.cc
 
 CMakeFiles/laueDet.dir/src/EventAction.cc.i: cmake_force
@@ -128,7 +156,7 @@ CMakeFiles/laueDet.dir/src/EventAction.cc.s: cmake_force
 CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o: CMakeFiles/laueDet.dir/flags.make
 CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o: ../src/PrimaryGeneratorAction.cc
 CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o: CMakeFiles/laueDet.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/giovanni/dev/LaueLens/Simulations/g4laue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/giovanni/dev/LaueLens/Simulations/g4laue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o -MF CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o.d -o CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o -c /Users/giovanni/dev/LaueLens/Simulations/g4laue/src/PrimaryGeneratorAction.cc
 
 CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.i: cmake_force
@@ -144,6 +172,8 @@ laueDet_OBJECTS = \
 "CMakeFiles/laueDet.dir/laueDet.cc.o" \
 "CMakeFiles/laueDet.dir/src/ActionInitialization.cc.o" \
 "CMakeFiles/laueDet.dir/src/DetectorConstruction.cc.o" \
+"CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.o" \
+"CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.o" \
 "CMakeFiles/laueDet.dir/src/EventAction.cc.o" \
 "CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o"
 
@@ -153,6 +183,8 @@ laueDet_EXTERNAL_OBJECTS =
 laueDet: CMakeFiles/laueDet.dir/laueDet.cc.o
 laueDet: CMakeFiles/laueDet.dir/src/ActionInitialization.cc.o
 laueDet: CMakeFiles/laueDet.dir/src/DetectorConstruction.cc.o
+laueDet: CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.o
+laueDet: CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.o
 laueDet: CMakeFiles/laueDet.dir/src/EventAction.cc.o
 laueDet: CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o
 laueDet: CMakeFiles/laueDet.dir/build.make
@@ -205,7 +237,7 @@ laueDet: /Users/giovanni/sw/geant4/geant4-v11.0.2-mt-gdml-install/lib/libG4globa
 laueDet: /Users/giovanni/sw/geant4/geant4-v11.0.2-mt-gdml-install/lib/libG4clhep.dylib
 laueDet: /Users/giovanni/sw/geant4/geant4-v11.0.2-mt-gdml-install/lib/libG4ptl.0.0.2.dylib
 laueDet: CMakeFiles/laueDet.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/giovanni/dev/LaueLens/Simulations/g4laue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable laueDet"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/giovanni/dev/LaueLens/Simulations/g4laue/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable laueDet"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/laueDet.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -29,13 +29,16 @@
 /// \brief Implementation of the DetectorConstruction class
 
 #include "DetectorConstruction.hh"
+#include "EmCalorimeterSD.hh"
 
 #include "G4NistManager.hh"
+#include "G4SDManager.hh"
 #include "G4Material.hh"
 #include "G4Box.hh"
 #include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
+#include "G4RotationMatrix.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4GenericMessenger.hh"
 
@@ -67,9 +70,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double z;     // Atomic number
   G4double density; // Density
   G4int nel;      // Number of elements in a compound
-  G4int natoms;       // Number of atoms in a compound
-  G4double fractionmass;
-  G4int ncomponents;
+  //G4int natoms;       // Number of atoms in a compound
+  //G4double fractionmass;
+  //G4int ncomponents;
 
   // Vacuum
   G4Element*  H  = new G4Element("Hydrogen"  , "H" , z = 1. , a =  1.008*g/mole);
@@ -133,6 +136,26 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     0,                     //copy number
                     checkOverlaps);        //overlaps checking
 
+  hx = detAx/10.;
+  hy = detAy/10.;
+  hz = detAz;
+  auto detectorUnitAS = new G4Box("detectorUnitAS", hx, hy, hz);
+  auto detectorUnitALV = new G4LogicalVolume(detectorUnitAS, silicon, "detectorUnitA");
+
+  for (G4int i=0; i<10; ++i) {
+    for (G4int j=0; j<10; ++j) {
+      new G4PVPlacement(0,
+                    G4ThreeVector(-0.9*detAx + 2*i*hx, -0.9*detAy + 2*j*hy, 0),
+                    //G4ThreeVector(0, 0, 0),
+                    detectorUnitALV,          //its logical volume
+                    "detectorUnitA",            //its name
+                    detectorALV,               //its mother  volume
+                    false,                 //no boolean operation
+                    1000 + i*10+j,                     //copy number
+                    checkOverlaps);        //overlaps checking
+    }
+  }
+
   // detector B
   G4double detBx = 0.5*m; // half size
   G4double detBy = 0.5*m;
@@ -148,6 +171,27 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     false,                 //no boolean operation
                     0,                     //copy number
                     checkOverlaps);        //overlaps checking
+
+  hx = detBx/10.;
+  hy = detBy/10.;
+  hz = detBz;
+  auto detectorUnitBS = new G4Box("detectorUnitBS", hx, hy, hz);
+  auto detectorUnitBLV = new G4LogicalVolume(detectorUnitBS, CZT, "detectorUnitB");
+
+  for (G4int i=0; i<10; ++i) {
+    for (G4int j=0; j<10; ++j) {
+      new G4PVPlacement(0,
+                    G4ThreeVector(-0.9*detBx + 2*i*hx, -0.9*detBy + 2*j*hy, 0),
+                    //G4ThreeVector(0, 0, 0),
+                    detectorUnitBLV,          //its logical volume
+                    "detectorUnitB",            //its name
+                    detectorBLV,               //its mother  volume
+                    false,                 //no boolean operation
+                    2000 + i*10+j,                     //copy number
+                    checkOverlaps);        //overlaps checking
+    }
+  }
+
 
   // Detector C
   G4double rmin = 95.*cm;
@@ -167,6 +211,26 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     0,                     //copy number
                     checkOverlaps);        //overlaps checking
 
+  rmin = 95.*cm;
+  rmax = 100.*cm;
+  hz = 30.*cm;
+  phimin = 0.*deg;
+  dphi = 3.6*deg;
+  auto detectorUnitCS = new G4Tubs("detectorUnitC", rmin, rmax, hz, phimin, dphi);
+  auto detectorUnitCLV = new G4LogicalVolume(detectorUnitCS, CZT, "detectorUnitC");
+
+  for (G4int i=0; i<100; ++i) { 
+    G4RotationMatrix* rotationMatrix = new G4RotationMatrix;
+    rotationMatrix->rotateZ(i*dphi);
+    new G4PVPlacement(rotationMatrix,
+                    G4ThreeVector(),       //at (0,0,0)
+                    detectorUnitCLV,                //its logical volume
+                    "detectorUnitC",                //its name
+                    detectorCLV,               //its mother  volume
+                    false,                 //no boolean operation
+                    3000+i,                     //copy number
+                    checkOverlaps);        //overlaps checking
+  }
 
   //always return the physical World
   //
@@ -174,5 +238,23 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::ConstructSDandField()
+{
+  //
+  // Sensitive detectors
+  ///
+  auto detectorASD = new EmCalorimeterSD("detectorASD");
+  G4SDManager::GetSDMpointer()->AddNewDetector(detectorASD);
+  SetSensitiveDetector("detectorUnitA", detectorASD);
+
+  auto detectorBSD = new EmCalorimeterSD("detectorBSD");
+  G4SDManager::GetSDMpointer()->AddNewDetector(detectorBSD);
+  SetSensitiveDetector("detectorUnitB", detectorBSD);
+
+  auto detectorCSD = new EmCalorimeterSD("detectorCSD");
+  G4SDManager::GetSDMpointer()->AddNewDetector(detectorCSD);
+  SetSensitiveDetector("detectorUnitC", detectorCSD);
+}
 
 }

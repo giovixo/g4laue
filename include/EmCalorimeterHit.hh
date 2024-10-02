@@ -25,40 +25,65 @@
 //
 // $Id$
 //
-/// \file DetectorConstruction.hh
-/// \brief Definition of the DetectorConstruction class
+/// \file EmCalorimeterHit.hh
+/// \brief Definition of the EmCalorimeterHit class
+//
 
-#ifndef DetectorConstruction_h
-#define DetectorConstruction_h 1
+#ifndef EmCalorimeterHit_h
+#define EmCalorimeterHit_h 1
 
-#include "G4VUserDetectorConstruction.hh"
-
-class G4VPhysicalVolume;
-class G4GenericMessenger;
-
-/// Detector construction class to define materials and geometry.
+#include "G4VHit.hh"
+#include "G4THitsCollection.hh"
+#include "G4Allocator.hh"
 
 namespace ED
 {
 
-class DetectorConstruction : public G4VUserDetectorConstruction
+class EmCalorimeterHit : public G4VHit
 {
   public:
-    DetectorConstruction();
-    ~DetectorConstruction() override;
+    EmCalorimeterHit();
+    ~EmCalorimeterHit() override;
+    EmCalorimeterHit(const EmCalorimeterHit& right);
+    const EmCalorimeterHit& operator=(const EmCalorimeterHit& right);
+    int operator==(const EmCalorimeterHit& right) const;
 
-  public:
-    G4VPhysicalVolume* Construct() override;
-    void ConstructSDandField() override;
+    inline void* operator new(size_t);
+    inline void  operator delete(void* hit);
+
+    void Print() override;
+
+    // add setter/getter methods
+    void SetLayerNumber(G4int number) { fLayerNumber = number; }
+    void AddEdep(G4double edep)       { fEdep += edep; }
+
+    G4int    GetLayerNumber() const { return fLayerNumber;}
+    G4double GetEdep() const        { return fEdep; }
 
   private:
-    G4GenericMessenger *fMessenger = nullptr;
-    G4double detAsizeZ = 1.;
+    // add data members
+    G4int     fLayerNumber = -1;
+    G4double  fEdep = 0.;
 };
+
+typedef G4THitsCollection<EmCalorimeterHit> EmCalorimeterHitsCollection;
+
+extern G4Allocator<EmCalorimeterHit>* EmCalorimeterHitAllocator;
+
+inline void* EmCalorimeterHit::operator new(size_t)
+{
+  if (! EmCalorimeterHitAllocator)
+        EmCalorimeterHitAllocator = new G4Allocator<EmCalorimeterHit>;
+  return (void*)EmCalorimeterHitAllocator->MallocSingle();
+}
+
+inline void EmCalorimeterHit::operator delete(void* hit)
+{
+  EmCalorimeterHitAllocator->FreeSingle((EmCalorimeterHit*) hit);
+}
 
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 #endif
+
 

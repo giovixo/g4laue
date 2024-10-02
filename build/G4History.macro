@@ -3,7 +3,6 @@
 /control/execute vis.mac
 /vis/open OGL 600x600-0+0
 /vis/sceneHandler/create OGL
-/vis/sceneHandler/attach
 /vis/viewer/create ! ! 600x600-0+0
 /vis/viewer/refresh
 /vis/viewer/set/autoRefresh false
@@ -14,8 +13,6 @@
 /vis/sceneHandler/attach
 /vis/viewer/set/viewpointVector -1 0 0
 /vis/viewer/set/lightsVector -1 0 0
-/vis/scene/add/axes 0 0 0 1 m
-/vis/scene/notifyHandlers
 /vis/viewer/set/style wireframe
 /vis/viewer/set/auxiliaryEdge true
 /vis/viewer/set/lineSegmentsPerCircle 100
@@ -25,28 +22,45 @@
 /vis/modeling/trajectories/create/drawByCharge
 /vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
 /vis/scene/notifyHandlers scene-0
-/vis/scene/notifyHandlers scene-1
 /vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2
 /vis/scene/notifyHandlers scene-0
-/vis/scene/notifyHandlers scene-1
 /vis/scene/endOfEventAction accumulate
 /vis/geometry/set/visibility World 0 true
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour detectorA 0 yellow
 /vis/scene/notifyHandlers
+/vis/geometry/set/colour detectorUnitA 0 yellow
+/vis/scene/notifyHandlers
 /vis/geometry/set/colour detectorB 0 red
 /vis/scene/notifyHandlers
+/vis/geometry/set/colour detectorUnitB 0 red
+/vis/scene/notifyHandlers
 /vis/geometry/set/colour detectorC 0 blue
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour detectorUnitC 0 blue
 /vis/scene/notifyHandlers
 /vis/viewer/set/autoRefresh true
 /vis/viewer/refresh
 /vis/verbose warnings
-/vis/set/touchable World 0
-/vis/viewer/select viewer-0 (OpenGLStoredQt)
-/vis/viewer/refresh
-/vis/set/touchable World 0
-/vis/viewer/select viewer-1 (OpenGLStoredQt)
-/vis/viewer/refresh
-/control/execute detector.mac
-/detector/detAsizeZ 1.
-/vis/viewer/refresh
+/gps/particle gamma
+/gps/energy 200 keV
+/gps/direction 0.0 0.0 1.0
+/gps/polarization 1. 0. 0.
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0.0 0.0 -300.0 cm
+/gps/pos/halfx 50.0 cm
+/gps/pos/halfy 50.0 cm
+/control/execute run.mac
+/run/initialize
+/gps/particle gamma
+/gps/energy 200 keV
+/gps/direction 0.0 0.0 1.0
+/gps/polarization 1. 0. 0.
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0.0 0.0 -300.0 cm
+/gps/pos/halfx 50.0 cm
+/gps/pos/halfy 50.0 cm
+/run/beamOn 2000
+/vis/scene/notifyHandlers scene-0

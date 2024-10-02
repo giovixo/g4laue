@@ -259,6 +259,54 @@ src/DetectorConstruction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/laueDet.dir/build.make CMakeFiles/laueDet.dir/src/DetectorConstruction.cc.s
 .PHONY : src/DetectorConstruction.cc.s
 
+src/EmCalorimeterHit.o: src/EmCalorimeterHit.cc.o
+.PHONY : src/EmCalorimeterHit.o
+
+# target to build an object file
+src/EmCalorimeterHit.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/laueDet.dir/build.make CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.o
+.PHONY : src/EmCalorimeterHit.cc.o
+
+src/EmCalorimeterHit.i: src/EmCalorimeterHit.cc.i
+.PHONY : src/EmCalorimeterHit.i
+
+# target to preprocess a source file
+src/EmCalorimeterHit.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/laueDet.dir/build.make CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.i
+.PHONY : src/EmCalorimeterHit.cc.i
+
+src/EmCalorimeterHit.s: src/EmCalorimeterHit.cc.s
+.PHONY : src/EmCalorimeterHit.s
+
+# target to generate assembly for a file
+src/EmCalorimeterHit.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/laueDet.dir/build.make CMakeFiles/laueDet.dir/src/EmCalorimeterHit.cc.s
+.PHONY : src/EmCalorimeterHit.cc.s
+
+src/EmCalorimeterSD.o: src/EmCalorimeterSD.cc.o
+.PHONY : src/EmCalorimeterSD.o
+
+# target to build an object file
+src/EmCalorimeterSD.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/laueDet.dir/build.make CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.o
+.PHONY : src/EmCalorimeterSD.cc.o
+
+src/EmCalorimeterSD.i: src/EmCalorimeterSD.cc.i
+.PHONY : src/EmCalorimeterSD.i
+
+# target to preprocess a source file
+src/EmCalorimeterSD.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/laueDet.dir/build.make CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.i
+.PHONY : src/EmCalorimeterSD.cc.i
+
+src/EmCalorimeterSD.s: src/EmCalorimeterSD.cc.s
+.PHONY : src/EmCalorimeterSD.s
+
+# target to generate assembly for a file
+src/EmCalorimeterSD.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/laueDet.dir/build.make CMakeFiles/laueDet.dir/src/EmCalorimeterSD.cc.s
+.PHONY : src/EmCalorimeterSD.cc.s
+
 src/EventAction.o: src/EventAction.cc.o
 .PHONY : src/EventAction.o
 
@@ -330,6 +378,12 @@ help:
 	@echo "... src/DetectorConstruction.o"
 	@echo "... src/DetectorConstruction.i"
 	@echo "... src/DetectorConstruction.s"
+	@echo "... src/EmCalorimeterHit.o"
+	@echo "... src/EmCalorimeterHit.i"
+	@echo "... src/EmCalorimeterHit.s"
+	@echo "... src/EmCalorimeterSD.o"
+	@echo "... src/EmCalorimeterSD.i"
+	@echo "... src/EmCalorimeterSD.s"
 	@echo "... src/EventAction.o"
 	@echo "... src/EventAction.i"
 	@echo "... src/EventAction.s"

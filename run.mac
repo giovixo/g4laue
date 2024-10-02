@@ -15,7 +15,7 @@
 /gps/pos/type Plane
 /gps/pos/shape Square
 /gps/pos/centre 0.0 0.0 -300.0 cm
-/gps/pos/halfx 5.0 mm
-/gps/pos/halfy 5.0 mm
+/gps/pos/halfx 50.0 cm
+/gps/pos/halfy 50.0 cm
 # Run
 /run/beamOn 2000

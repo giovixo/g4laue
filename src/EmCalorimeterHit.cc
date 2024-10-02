@@ -25,40 +25,64 @@
 //
 // $Id$
 //
-/// \file DetectorConstruction.hh
-/// \brief Definition of the DetectorConstruction class
+/// \file EmCalorimeterHit.cc
+/// \brief Implementation of the EmCalorimeterHit class
+//
 
-#ifndef DetectorConstruction_h
-#define DetectorConstruction_h 1
+#include "EmCalorimeterHit.hh"
 
-#include "G4VUserDetectorConstruction.hh"
+#include <G4UnitsTable.hh>
 
-class G4VPhysicalVolume;
-class G4GenericMessenger;
-
-/// Detector construction class to define materials and geometry.
+#include <iomanip>
 
 namespace ED
 {
 
-class DetectorConstruction : public G4VUserDetectorConstruction
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4Allocator<EmCalorimeterHit>* EmCalorimeterHitAllocator = nullptr;
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+EmCalorimeterHit::EmCalorimeterHit()
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+EmCalorimeterHit::~EmCalorimeterHit()
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+EmCalorimeterHit::EmCalorimeterHit(const EmCalorimeterHit& /*right*/)
+ : G4VHit()
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+const EmCalorimeterHit&
+EmCalorimeterHit::operator=(const EmCalorimeterHit& /*right*/)
 {
-  public:
-    DetectorConstruction();
-    ~DetectorConstruction() override;
-
-  public:
-    G4VPhysicalVolume* Construct() override;
-    void ConstructSDandField() override;
-
-  private:
-    G4GenericMessenger *fMessenger = nullptr;
-    G4double detAsizeZ = 1.;
-};
-
+  return *this;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#endif
+int EmCalorimeterHit::operator==(const EmCalorimeterHit& /*right*/) const
+{
+  return 0;
+}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void EmCalorimeterHit::Print()
+{
+  if ( fEdep > 0. ) {
+    G4cout << "Hit in the detector " << fLayerNumber
+           << "  Edep = " << std::setw(7) << G4BestUnit(fEdep,"Energy") << G4endl;
+  }
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+}
