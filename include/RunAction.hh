@@ -25,68 +25,35 @@
 //
 // $Id$
 //
-/// \file EmCalorimeterHit.cc
-/// \brief Implementation of the EmCalorimeterHit class
-//
+/// \file RunAction.hh
+/// \brief Definition of the RunAction class
 
-#include "EmCalorimeterHit.hh"
+#ifndef RunAction_h
+#define RunAction_h 1
 
-#include <G4UnitsTable.hh>
+#include "G4UserRunAction.hh"
+#include "globals.hh"
 
-#include <iomanip>
+class G4Run;
+
+/// Run action class
 
 namespace ED
 {
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-// Sequential
-// G4Allocator<EmCalorimeterHit>* EmCalorimeterHitAllocator = nullptr;
-
-// MT-ready
-G4ThreadLocal G4Allocator<EmCalorimeterHit>* EmCalorimeterHitAllocator = nullptr;
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-EmCalorimeterHit::EmCalorimeterHit()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-EmCalorimeterHit::~EmCalorimeterHit()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-EmCalorimeterHit::EmCalorimeterHit(const EmCalorimeterHit& /*right*/)
- : G4VHit()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-const EmCalorimeterHit&
-EmCalorimeterHit::operator=(const EmCalorimeterHit& /*right*/)
+class RunAction : public G4UserRunAction
 {
-  return *this;
+  public:
+    RunAction();
+    ~RunAction() override;
+
+    void BeginOfRunAction(const G4Run*) override;
+    void   EndOfRunAction(const G4Run*) override;
+};
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-int EmCalorimeterHit::operator==(const EmCalorimeterHit& /*right*/) const
-{
-  return 0;
-}
+#endif
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void EmCalorimeterHit::Print()
-{
-  if ( fEdep > 0. ) {
-    G4cout << "Hit in the detector " << fLayerNumber
-           << "  Edep = " << std::setw(7) << G4BestUnit(fEdep,"Energy") << G4endl;
-  }
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-}

@@ -41,19 +41,46 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+namespace {
+  void PrintUsage() {
+    G4cerr << "USAGE" << G4endl;
+    G4cerr << "Batch mode" << G4endl;
+    G4cerr << "laueDet -m macro [-t nThreads]" << G4endl;
+    G4cerr << "Interactive mode" << G4endl;
+    G4cerr << "laueDet [-t nThreads]" << G4endl;
+    G4cerr << "note: -t option is used only in multi-threaded mode." << G4endl;
+    G4cerr << G4endl;
+  }
+}
+
 int main(int argc,char** argv)
 {
+  G4String macro;
+  G4String session;
+  G4String physicsListName;
+  G4String gdmlFileName;
+  G4int nofThreads = 1;
+  for ( G4int i=1; i<argc; i=i+2 ) {
+    if      ( G4String(argv[i]) == "-m" ) macro = argv[i+1];
+    else if ( G4String(argv[i]) == "-t" ) {
+      nofThreads = G4UIcommand::ConvertToInt(argv[i+1]);
+    }
+    else {
+      PrintUsage();
+      return 1;
+    }
+  }
+
   // Detect interactive mode (if no arguments) and define UI session
   //
   G4UIExecutive* ui = nullptr;
-  if ( argc == 1 ) {
+  if ( ! macro.size() ) {
     ui = new G4UIExecutive(argc, argv);
   }
 
-  // Construct the run manager (for serial mode)
-  //
-  auto runManager =
-    G4RunManagerFactory::CreateRunManager(G4RunManagerType::Serial);
+// Construct the run manager
+  auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
+  runManager->SetNumberOfThreads(nofThreads);
 
 // Get the pointer to the User Interface manager
   auto UImanager = G4UImanager::GetUIpointer();
@@ -85,7 +112,7 @@ int main(int argc,char** argv)
   if ( ! ui ) {
     // batch mode
     G4String command = "/control/execute ";
-    G4String fileName = argv[1];
+    G4String fileName = macro; //argv[1];
     UImanager->ApplyCommand(command+fileName);
   }
   else {

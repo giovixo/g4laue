@@ -68,7 +68,11 @@ class EmCalorimeterHit : public G4VHit
 
 typedef G4THitsCollection<EmCalorimeterHit> EmCalorimeterHitsCollection;
 
-extern G4Allocator<EmCalorimeterHit>* EmCalorimeterHitAllocator;
+// sequential
+//extern G4Allocator<EmCalorimeterHit>* EmCalorimeterHitAllocator;
+
+// MT ready
+extern G4ThreadLocal G4Allocator<EmCalorimeterHit>* EmCalorimeterHitAllocator;
 
 inline void* EmCalorimeterHit::operator new(size_t)
 {

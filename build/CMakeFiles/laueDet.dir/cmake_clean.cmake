@@ -13,6 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/laueDet.dir/src/EventAction.cc.o.d"
   "CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o"
   "CMakeFiles/laueDet.dir/src/PrimaryGeneratorAction.cc.o.d"
+  "CMakeFiles/laueDet.dir/src/RunAction.cc.o"
+  "CMakeFiles/laueDet.dir/src/RunAction.cc.o.d"
   "laueDet"
   "laueDet.pdb"
 )

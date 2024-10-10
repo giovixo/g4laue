@@ -25,66 +25,62 @@
 //
 // $Id$
 //
-/// \file EmCalorimeterHit.cc
-/// \brief Implementation of the EmCalorimeterHit class
-//
+/// \file RunAction.cc
+/// \brief Implementation of the RunAction class
 
-#include "EmCalorimeterHit.hh"
+#include "RunAction.hh"
 
-#include <G4UnitsTable.hh>
-
-#include <iomanip>
+#include "G4AnalysisManager.hh"
+#include "G4Run.hh"
+#include "G4SystemOfUnits.hh"
 
 namespace ED
 {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-// Sequential
-// G4Allocator<EmCalorimeterHit>* EmCalorimeterHitAllocator = nullptr;
-
-// MT-ready
-G4ThreadLocal G4Allocator<EmCalorimeterHit>* EmCalorimeterHitAllocator = nullptr;
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-EmCalorimeterHit::EmCalorimeterHit()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-EmCalorimeterHit::~EmCalorimeterHit()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-EmCalorimeterHit::EmCalorimeterHit(const EmCalorimeterHit& /*right*/)
- : G4VHit()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-const EmCalorimeterHit&
-EmCalorimeterHit::operator=(const EmCalorimeterHit& /*right*/)
+RunAction::RunAction()
 {
-  return *this;
+  // Create analysis manager
+  auto analysisManager = G4AnalysisManager::Instance();
+  analysisManager->SetVerboseLevel(1);
+  analysisManager->SetNtupleMerging(true);
+
+  // Creating ntuple
+  //
+  // ntuple id = 0
+  analysisManager->CreateNtuple("Events", "Events list");
+  analysisManager->CreateNtupleIColumn("Detector");   // column id = 0
+  analysisManager->CreateNtupleDColumn("Energy");    // column id = 1
+  analysisManager->FinishNtuple();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-int EmCalorimeterHit::operator==(const EmCalorimeterHit& /*right*/) const
+RunAction::~RunAction()
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void RunAction::BeginOfRunAction(const G4Run* /*run*/)
 {
-  return 0;
+  // Get analysis manager
+  auto analysisManager = G4AnalysisManager::Instance();
+
+  // Open an output file
+  G4String fileName = "events.root";
+  analysisManager->OpenFile(fileName);
+  G4cout << "Using " << analysisManager->GetType() << G4endl;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EmCalorimeterHit::Print()
+void RunAction::EndOfRunAction(const G4Run* /*run*/)
 {
-  if ( fEdep > 0. ) {
-    G4cout << "Hit in the detector " << fLayerNumber
-           << "  Edep = " << std::setw(7) << G4BestUnit(fEdep,"Energy") << G4endl;
-  }
+  // Close and write root file 
+  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+  analysisManager->Write();
+  analysisManager->CloseFile();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

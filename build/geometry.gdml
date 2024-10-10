@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+  <define/>
+
+  <materials>
+    <isotope N="1" Z="1" name="H10x6000019f8bc0">
+      <atom unit="g/mole" value="1.00782503081372"/>
+    </isotope>
+    <isotope N="2" Z="1" name="H20x6000019f8cc0">
+      <atom unit="g/mole" value="2.01410199966617"/>
+    </isotope>
+    <element name="Hydrogen0x600003b30f20">
+      <fraction n="0.999885" ref="H10x6000019f8bc0"/>
+      <fraction n="0.000115" ref="H20x6000019f8cc0"/>
+    </element>
+    <material name="Vacuum0x7f82b106fa10" state="gas">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="19.2"/>
+      <D unit="g/cm3" value="1e-25"/>
+      <fraction n="1" ref="Hydrogen0x600003b30f20"/>
+    </material>
+  </materials>
+
+  <solids>
+    <box lunit="mm" name="World0x600002732ca0" x="4000" y="4000" z="8000"/>
+  </solids>
+
+  <structure>
+    <volume name="World0x600003d31cc0">
+      <materialref ref="Vacuum0x7f82b106fa10"/>
+      <solidref ref="World0x600002732ca0"/>
+    </volume>
+  </structure>
+
+  <setup name="Default" version="1.0">
+    <world ref="World0x600003d31cc0"/>
+  </setup>
+
+</gdml>

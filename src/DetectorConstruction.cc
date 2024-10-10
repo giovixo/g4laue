@@ -42,6 +42,8 @@
 #include "G4SystemOfUnits.hh"
 #include "G4GenericMessenger.hh"
 
+#include "G4GDMLParser.hh"
+
 namespace ED
 {
 
@@ -119,6 +121,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                       false,                 //no boolean operation
                       0,                     //copy number
                       checkOverlaps);        //overlaps checking
+
 
   // detector A
   G4double detAx = 0.5*m; // half size

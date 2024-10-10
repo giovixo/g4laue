@@ -31,11 +31,14 @@
 
 #include "EmCalorimeterSD.hh"
 
+#include "G4AnalysisManager.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4SDManager.hh"
 #include "G4VTouchable.hh"
 #include "G4Step.hh"
 #include "G4ios.hh"
+
+#include "G4SystemOfUnits.hh"
 
 namespace ED
 {
@@ -99,7 +102,7 @@ G4bool EmCalorimeterSD::ProcessHits(G4Step* step,
     exit(1);
   }
 
-  // Add values
+  // Add the value of energy depositi to the hit
   hit->AddEdep(edep);
 
   return true;
@@ -111,10 +114,21 @@ void EmCalorimeterSD::EndOfEvent(G4HCofThisEvent* /*hce*/)
 {
   //G4cout << "> " <<  fHitsCollection->GetName()
   //       << ": in this event: " << G4endl;
-
+  
+  auto analysisManager = G4AnalysisManager::Instance();
   G4int nofHits = fHitsCollection->entries();
   for ( G4int i=0; i<nofHits; i++ ) {
-    (*fHitsCollection)[i]->Print();
+     (*fHitsCollection)[i]->Print();
+     // Add hits properties in the ntuple
+     G4double energyDeposit = ((*fHitsCollection)[i]->GetEdep())/keV;
+     if (energyDeposit > 0) {
+        G4int detectorNo = (*fHitsCollection)[i]->GetLayerNumber();
+        G4cout << "layer no: " << detectorNo << G4endl;
+        G4cout << "energy deposit: " << energyDeposit << G4endl;
+        analysisManager->FillNtupleIColumn(0, 0, detectorNo);
+        analysisManager->FillNtupleDColumn(0, 1, energyDeposit);
+        analysisManager->AddNtupleRow(0);
+     }
   }
 }
 

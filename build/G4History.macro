@@ -62,5 +62,4 @@
 /gps/pos/centre 0.0 0.0 -300.0 cm
 /gps/pos/halfx 50.0 cm
 /gps/pos/halfy 50.0 cm
-/run/beamOn 2000
-/vis/scene/notifyHandlers scene-0
+/run/beamOn 200
