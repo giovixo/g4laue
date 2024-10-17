@@ -38,6 +38,7 @@
 class G4Step;
 class G4HCofThisEvent;
 class G4TouchableHistory;
+class G4GenericMessenger;
 
 namespace ED
 {
@@ -54,6 +55,9 @@ class EmCalorimeterSD : public G4VSensitiveDetector
 
   private:
     EmCalorimeterHitsCollection* fHitsCollection = nullptr;
+    G4int fNtupleRowCount = 0;  // Row count tracker
+    G4GenericMessenger *fMessenger = nullptr;
+    G4int fNsteps = 1;
 };
 
 }

@@ -31,12 +31,17 @@
 
 #include "EmCalorimeterSD.hh"
 
+#include "G4RunManager.hh"
+#include "G4UImanager.hh"
+#include "G4Event.hh"
 #include "G4AnalysisManager.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4SDManager.hh"
 #include "G4VTouchable.hh"
 #include "G4Step.hh"
 #include "G4ios.hh"
+#include "G4Event.hh"
+#include "G4GenericMessenger.hh"
 
 #include "G4SystemOfUnits.hh"
 
@@ -47,7 +52,19 @@ namespace ED
 
 EmCalorimeterSD::EmCalorimeterSD(const G4String& name)
  : G4VSensitiveDetector(name)
-{}
+{
+  // not working (for some reason the kew is read only once)
+  fMessenger = new G4GenericMessenger(this, "/log/", "Log control");
+  fMessenger->DeclareProperty("Nsteps", fNsteps, "Print the info with intervals Nsteps");
+  // working
+  std::ifstream inputFile("log.txt");
+  if (inputFile.is_open()) {
+    inputFile >> fNsteps;
+    } else {
+       fNsteps = 1; 
+    }
+  inputFile.close();
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -62,6 +79,7 @@ void EmCalorimeterSD::Initialize(G4HCofThisEvent* /*hce*/)
 
   fHitsCollection
     = new EmCalorimeterHitsCollection(SensitiveDetectorName, hcName);
+  //G4cout << "SensitiveDetectorName: " << SensitiveDetectorName << G4endl;
 
   // Create a hit for each calorimeter layer
   for (G4int i=1000; i<1100; ++i) {
@@ -116,19 +134,27 @@ void EmCalorimeterSD::EndOfEvent(G4HCofThisEvent* /*hce*/)
   //       << ": in this event: " << G4endl;
   
   auto analysisManager = G4AnalysisManager::Instance();
+  const G4Event* currentEvent = G4RunManager::GetRunManager()->GetCurrentEvent();
+  G4int eventID = currentEvent->GetEventID()+1;
   G4int nofHits = fHitsCollection->entries();
   for ( G4int i=0; i<nofHits; i++ ) {
-     (*fHitsCollection)[i]->Print();
+     //(*fHitsCollection)[i]->Print();
      // Add hits properties in the ntuple
      G4double energyDeposit = ((*fHitsCollection)[i]->GetEdep())/keV;
-     if (energyDeposit > 0) {
+      if (energyDeposit > 0.) {
         G4int detectorNo = (*fHitsCollection)[i]->GetLayerNumber();
-        G4cout << "layer no: " << detectorNo << G4endl;
-        G4cout << "energy deposit: " << energyDeposit << G4endl;
-        analysisManager->FillNtupleIColumn(0, 0, detectorNo);
-        analysisManager->FillNtupleDColumn(0, 1, energyDeposit);
+        if(!(eventID % fNsteps)) {
+           G4cout << "Event ID " << eventID << " ---> ";
+           G4cout << "Hit in the detector " << detectorNo
+              << "  Edep = " << std::setw(7) << energyDeposit << " keV" << G4endl;
+        }
+        analysisManager->FillNtupleIColumn(0, 0, eventID);
+        analysisManager->FillNtupleIColumn(0, 1, detectorNo);
+        analysisManager->FillNtupleDColumn(0, 2, energyDeposit);
         analysisManager->AddNtupleRow(0);
-     }
+        // Increment the row count
+        fNtupleRowCount++;
+      }
   }
 }
 

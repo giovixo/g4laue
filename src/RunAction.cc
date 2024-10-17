@@ -50,8 +50,9 @@ RunAction::RunAction()
   //
   // ntuple id = 0
   analysisManager->CreateNtuple("Events", "Events list");
-  analysisManager->CreateNtupleIColumn("Detector");   // column id = 0
-  analysisManager->CreateNtupleDColumn("Energy");    // column id = 1
+  analysisManager->CreateNtupleIColumn("EventID");   // column id = 0
+  analysisManager->CreateNtupleIColumn("Detector");   // column id = 1
+  analysisManager->CreateNtupleDColumn("Energy");    // column id = 2
   analysisManager->FinishNtuple();
 }
 

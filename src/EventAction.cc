@@ -47,16 +47,27 @@ EventAction::~EventAction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EventAction::BeginOfEventAction(const G4Event* event)
+void EventAction::BeginOfEventAction(const G4Event* /*event*/)
 {
-  G4cout << ">>> Start event: " << event->GetEventID() << G4endl;
+  //G4int eventID = event -> GetEventID()+1;
+  /*if(!(eventID % 10))
+  {
+    G4cout << ">>> Start event: " << eventID << G4endl;
+  }
+  */
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EventAction::EndOfEventAction(const G4Event* event)
+void EventAction::EndOfEventAction(const G4Event* /*event*/)
 {
-  G4cout << ">>> End event: " << event->GetEventID() << G4endl;
+    // Get the event ID
+    //G4int eventID = event->GetEventID();
+    
+    /*if(!(eventID % 10))
+   {
+      G4cout << ">>> End event: " << eventID << G4endl;
+   }*/
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

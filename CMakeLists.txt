@@ -48,6 +48,7 @@ set(EXAMPLEED_SCRIPTS
   run.png
   vis.mac
   detector.mac
+  log.txt
   )
 
 foreach(_script ${EXAMPLEED_SCRIPTS})
