@@ -1,0 +1,1 @@
+G4ThreeVector GetGlobalPosition(G4VPhysicalVolume* volume);

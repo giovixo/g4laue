@@ -44,6 +44,8 @@
 
 #include "G4GDMLParser.hh"
 
+#include "GetGlobalPosition.hh"
+
 namespace ED
 {
 
@@ -97,6 +99,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Print all materials
   // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
+  // Define the output file for the lookup table
+  G4String filename = "lookup_table.txt";
+  std::ofstream lookupTable(filename);
+  // Check if the file was successfully opened
+  if (!lookupTable.is_open()) {
+        G4cerr << "Error: Could not open the file for writing!" << G4endl;
+  }
+  lookupTable << "# Look up table (det,x,y,z) x,y,z in cm" << G4endl;
+  lookupTable << "# detID  x(cm) y(cm) z(cm)" << G4endl;
+
   // --- VOLUMES DEFINITIONS ---
   // Option to switch on/off checking of volumes overlaps
   G4bool checkOverlaps = true;
@@ -130,7 +142,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   auto detectorAS = new G4Box("detectorAS", detAx, detAy, detAz);
   auto detectorALV = new G4LogicalVolume(detectorAS, silicon, "detectorA");
 
-  new G4PVPlacement(0,
+  auto detectorAPV = new G4PVPlacement(0,
                     G4ThreeVector(0, 0, -20.*cm),
                     detectorALV,          //its logical volume
                     "detectorA",            //its name
@@ -138,6 +150,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     false,                 //no boolean operation
                     0,                     //copy number
                     checkOverlaps);        //overlaps checking
+  G4ThreeVector detectorPositionLevel1 = GetGlobalPosition(detectorAPV);
+  G4cout << "Detector position level 1: " << detectorPositionLevel1/cm << " cm" << G4endl;
 
   hx = detAx/10.;
   hy = detAy/10.;
@@ -145,10 +159,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   auto detectorUnitAS = new G4Box("detectorUnitAS", hx, hy, hz);
   auto detectorUnitALV = new G4LogicalVolume(detectorUnitAS, silicon, "detectorUnitA");
 
+  G4double xPos, yPos, zPos;
   for (G4int i=0; i<10; ++i) {
     for (G4int j=0; j<10; ++j) {
-      new G4PVPlacement(0,
-                    G4ThreeVector(-0.9*detAx + 2*i*hx, -0.9*detAy + 2*j*hy, 0),
+      xPos = -0.9*detAx + 2*i*hx;
+      yPos = -0.9*detAy + 2*j*hy;
+      zPos = 0.;
+      auto detectorUnitAPV = new G4PVPlacement(0,
+                    G4ThreeVector(xPos, yPos, zPos),
                     //G4ThreeVector(0, 0, 0),
                     detectorUnitALV,          //its logical volume
                     "detectorUnitA",            //its name
@@ -156,6 +174,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     false,                 //no boolean operation
                     1000 + i*10+j,                     //copy number
                     checkOverlaps);        //overlaps checking
+      G4ThreeVector detectorPositionLevel2 = GetGlobalPosition(detectorUnitAPV);
+      G4ThreeVector detectorPos = detectorPositionLevel1 + detectorPositionLevel2;
+      // Debug
+      G4cout << "Detector position (level 1+2): " << detectorPos/cm << " cm" << G4endl;
+      // Print out the detector number and the position relative to worldLV
+      G4double detectorPosX = detectorPos[0];
+      G4double detectorPosY = detectorPos[1];
+      G4double detectorPosZ = detectorPos[2];
+      lookupTable << 1000 + i*10+j << "," << detectorPosX/cm << "," << detectorPosY/cm << "," << detectorPosZ/cm << G4endl;
     }
   }
 
@@ -166,7 +193,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   auto detectorBS = new G4Box("detectorBS", detBx, detBy, detBz);
   auto detectorBLV = new G4LogicalVolume(detectorBS, CZT, "detectorB");
 
-  new G4PVPlacement(0,
+  auto detectorBPV =new G4PVPlacement(0,
                     G4ThreeVector(0, 0, +20.*cm),
                     detectorBLV,          //its logical volume
                     "detectorB",            //its name
@@ -174,6 +201,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     false,                 //no boolean operation
                     0,                     //copy number
                     checkOverlaps);        //overlaps checking
+  detectorPositionLevel1 = GetGlobalPosition(detectorBPV);
+  G4cout << "Detector position level 1: " << detectorPositionLevel1/cm << " cm" << G4endl;
 
   hx = detBx/10.;
   hy = detBy/10.;
@@ -183,8 +212,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   for (G4int i=0; i<10; ++i) {
     for (G4int j=0; j<10; ++j) {
-      new G4PVPlacement(0,
-                    G4ThreeVector(-0.9*detBx + 2*i*hx, -0.9*detBy + 2*j*hy, 0),
+      xPos = -0.9*detBx + 2*i*hx;
+      yPos = -0.9*detBy + 2*j*hy;
+      zPos = 0.;
+      auto detectorUnitBPV = new G4PVPlacement(0,
+                    G4ThreeVector(xPos, yPos, zPos),
                     //G4ThreeVector(0, 0, 0),
                     detectorUnitBLV,          //its logical volume
                     "detectorUnitB",            //its name
@@ -192,7 +224,17 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     false,                 //no boolean operation
                     2000 + i*10+j,                     //copy number
                     checkOverlaps);        //overlaps checking
+      G4ThreeVector detectorPositionLevel2 = GetGlobalPosition(detectorUnitBPV);
+      G4ThreeVector detectorPos = detectorPositionLevel1 + detectorPositionLevel2;
+      // Debug
+      G4cout << "Detector position (level 1+2): " << detectorPos/cm << " cm" << G4endl;
+      // Print out the detector number and the position relative to worldLV
+      G4double detectorPosX = detectorPos[0];
+      G4double detectorPosY = detectorPos[1];
+      G4double detectorPosZ = detectorPos[2];
+      lookupTable << 2000 + i*10+j << "," << detectorPosX/cm << "," << detectorPosY/cm << "," << detectorPosZ/cm << G4endl;
     }
+
   }
 
 
@@ -223,8 +265,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   auto detectorUnitCLV = new G4LogicalVolume(detectorUnitCS, CZT, "detectorUnitC");
 
   for (G4int i=0; i<100; ++i) { 
+    G4ThreeVector detectorPos(100.0*cm, 0.0, 0.0);
     G4RotationMatrix* rotationMatrix = new G4RotationMatrix;
     rotationMatrix->rotateZ(i*dphi);
+    detectorPos[0] = 100.*cm * std::cos(dphi/2. + i*dphi);
+    detectorPos[1] = 100.*cm * std::sin(dphi/2. + i*dphi);
     new G4PVPlacement(rotationMatrix,
                     G4ThreeVector(),       //at (0,0,0)
                     detectorUnitCLV,                //its logical volume
@@ -233,7 +278,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     false,                 //no boolean operation
                     3000+i,                     //copy number
                     checkOverlaps);        //overlaps checking
+    // Debug
+    G4cout << "Detector position (level 1+2): " << detectorPos/cm << " cm" << G4endl;
+    lookupTable << 3000 + i << "," << detectorPos[0]/cm << "," << detectorPos[1]/cm << "," << detectorPos[2]/cm << G4endl;
   }
+  
+  // close the lookup table file
+  lookupTable.close();
+  G4cout << ">>> Lookup table file " << filename << " written succesfully" << G4endl;
 
   //always return the physical World
   //

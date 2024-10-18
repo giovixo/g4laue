@@ -35,7 +35,7 @@
 /vis/viewer/set/lightsVector -1 0 0
 #
 # Draw axis
-#/vis/scene/add/axes 0 0 0 1 m
+/vis/scene/add/axes 0 0 0 1 m
 #
 # Specify style (surface, wireframe, auxiliary edges,...)
 /vis/viewer/set/style wireframe
