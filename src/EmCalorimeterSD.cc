@@ -81,7 +81,7 @@ void EmCalorimeterSD::Initialize(G4HCofThisEvent* /*hce*/)
     = new EmCalorimeterHitsCollection(SensitiveDetectorName, hcName);
   //G4cout << "SensitiveDetectorName: " << SensitiveDetectorName << G4endl;
 
-  // Create a hit for each calorimeter layer
+  // Create a hit for each detector
   for (G4int i=1000; i<1100; ++i) {
     auto newHit = new EmCalorimeterHit();
     newHit->SetLayerNumber(i);
@@ -137,7 +137,7 @@ void EmCalorimeterSD::EndOfEvent(G4HCofThisEvent* /*hce*/)
   const G4Event* currentEvent = G4RunManager::GetRunManager()->GetCurrentEvent();
   G4int eventID = currentEvent->GetEventID()+1;
   G4int nofHits = fHitsCollection->entries();
-  for ( G4int i=0; i<nofHits; i++ ) {
+  for ( G4int i=0; i<nofHits; i++ ) { // loop over all the detector
      //(*fHitsCollection)[i]->Print();
      // Add hits properties in the ntuple
      G4double energyDeposit = ((*fHitsCollection)[i]->GetEdep())/keV;
