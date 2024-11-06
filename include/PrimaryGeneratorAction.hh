@@ -1,15 +1,18 @@
+
 #ifndef PrimaryGeneratorAction_H
 #define PrimaryGeneratorAction_H 1
 
 #include "G4VUserPrimaryGeneratorAction.hh"
-#include "DetectorConstruction.hh"
+
+#include "G4ThreeVector.hh"
+#include "G4ParticleGun.hh"
+#include "G4Event.hh"
 
 // Mandatory user class that defines the properties of the
 // particle gun and run initialization
 // Derived from the G4VUserPrimaryGeneratorAction initialisation
 // abstract base class.
 
-class G4GeneralParticleSource;
 class G4Event;
 
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
@@ -24,7 +27,8 @@ public:
     
     
 private:
-    G4GeneralParticleSource*    particleGun;
+    G4ParticleGun* particleGun;
+    void GenerateDirectionInCone(G4double coneAngle, G4ThreeVector& direction);
 };
 
 #endif

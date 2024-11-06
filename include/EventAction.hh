@@ -28,7 +28,7 @@
 /// \file EventAction.hh
 /// \brief Definition of the EventAction class
 
-#ifndef EventAction_h
+#ifndef EventAction_h  // this is used by the copiler to avoid to include the headerer twice.
 #define EventAction_h 1
 
 #include "G4UserEventAction.hh"
