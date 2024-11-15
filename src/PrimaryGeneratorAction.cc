@@ -57,7 +57,7 @@ void PrimaryGeneratorAction::GenerateSquare(G4double number) {
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
     // Set source position
-    G4ThreeVector position(0.0, 0.0, -300.*cm); // Origin, modify as needed
+    //G4ThreeVector position(0.0, 0.0, -300.*cm); // Origin, modify as needed
     //particleGun->SetParticlePosition(position);
 
     // Generate direction within cone
