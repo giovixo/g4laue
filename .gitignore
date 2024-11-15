@@ -36,3 +36,6 @@ build
 
 # Ignore the VS code directory
 .vscode
+
+# Ignore the python code checkpoint directory
+.ipynb_checkpoints 
