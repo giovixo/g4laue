@@ -1,0 +1,8 @@
+How to create the documentation:
+1. https://www.mkdocs.org/
+
+How to export geometry as a VRLM file:
+/vis/open VRML2FILE: Opens a VRML2 output stream.
+/vis/drawVolume: Draws the entire geometry to be exported.
+/vis/viewer/flush: Finalizes the drawing.
+/vis/sceneHandler/storeFile geometry.wrl: Exports the geometry to geometry.wrl.
